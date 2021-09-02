@@ -32,6 +32,19 @@ El controlador se encarga de mediar entre la vista y el modelo.
 # Inicialización del Catálogo de libros
 
 # Funciones para la carga de datos
+def loadArtists(filename):
+    """
+    Carga los artistas del archivo.  
+    """
+    artsfile = cf.data_dir + filename
+    return model.addArtists(artsfile)
+
+def loadArtworks(filename):
+    """
+    Carga las obras de arte del archivo.  
+    """
+    artworksfile = cf.data_dir + filename
+    return model.addArtworks(artworksfile)
 
 # Funciones de ordenamiento
 

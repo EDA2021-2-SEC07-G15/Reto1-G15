@@ -39,6 +39,18 @@ los mismos.
 
 # Funciones para agregar informacion al catalogo
 
+def addArtists(artsfile):
+
+    artists = lt.newList(datastructure='SINGLE_LINKED',
+                       filename=artsfile)
+    return artists
+
+def addArtworks(artworksfile):
+    
+    artworks = lt.newList(datastructure='SINGLE_LINKED',
+                       filename=artworksfile)
+    return artworks
+
 # Funciones para creacion de datos
 
 # Funciones de consulta
