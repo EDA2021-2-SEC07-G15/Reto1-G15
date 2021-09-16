@@ -66,9 +66,21 @@ def addArtworks(catalog, artwork):
 def cmpArtworkByDateAcquired(artwork1, artwork2):
     fecha_1 = artwork1["DateAcquired"]
     fecha_2= artwork2["DateAcquired"]
-    date_1 = dt.strptime(fecha_1, '%Y %m %d')
-    date_2 = dt.strptime(fecha_2, '%Y %m %d')
-    return date_1 < date_2
+    date_1 = fecha_1.split("-")
+    date_2 = fecha_2.split("-")
+    if len(date_1) != "" and len(date_2) != "":
+        if date_1[0] < date_2[0]:
+            return True
+            
+        elif date_1[1] < date_2[1]:
+            return True
+        elif date_1[2] < date_2[2]:
+            return True
+        else:
+            return False
+    else:
+        return False
+    
 #Funciones de ordenamiento 
 def sortDate(catalog, size):
     sub_list = lt.subList(catalog['artworks'], 1, size)

@@ -37,7 +37,7 @@ def iniciarCatalogo(tipo):
     return controller.initCatalog(tipo)
 def loadData(catalog,artist,artworks):
     controller.loadData(catalog,artist,artworks)
-def printSortResults(ord_artworks, sample=10):
+def printSortResults(ord_artworks, sample=100):
     size = lt.size(ord_artworks)
     if size > sample:
         print("los primeros ", sample, " artworks ordenados por fecha de adquisición son:")
