@@ -66,7 +66,7 @@ def selección_estructura()-> str:
     if tipo == 1:
         estructura = "ARRAY_LIST"
     elif tipo ==2:
-        estructura = "LINKED_LIST"
+        estructura = "SINGLE_LINKED_LIST"
     return estructura
 def seleccion_ordenamiento():
     ordenamiento = ""
@@ -98,7 +98,7 @@ while True:
         tipo_estructura = selección_estructura()
         print("Cargando información de los archivos ....")
         catalog = iniciarCatalogo(tipo_estructura)
-        loadData(catalog,'Artists-utf8-small.csv','Artworks-utf8-small.csv')
+        loadData(catalog,'Artists-utf8-small.csv','Artworks-utf8-large.csv')
         print("Se cargó exitosamente la información")
         print("Artistas cargados: " + str(lt.size(catalog["artist"])))
         print("Artworks cargados: " + str(lt.size(catalog["artworks"])))
