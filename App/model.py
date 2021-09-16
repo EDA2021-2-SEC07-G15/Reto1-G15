@@ -30,7 +30,10 @@ import time
 from DISClib.ADT import list as lt
 from DISClib.DataStructures import arraylist as array
 from DISClib.DataStructures import singlelinkedlist as singlelink
-from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import shellsort as Sa
+from DISClib.Algorithms.Sorting import mergesort as Mg
+from DISClib.Algorithms.Sorting import insertionsort as In
+from DISClib.Algorithms.Sorting import quicksort as Qc
 from datetime import datetime as dt
 assert cf
 
@@ -68,7 +71,7 @@ def cmpArtworkByDateAcquired(artwork1, artwork2):
     fecha_2= artwork2["DateAcquired"]
     date_1 = fecha_1.split("-")
     date_2 = fecha_2.split("-")
-    if len(date_1) != "" and len(date_2) != "":
+    if len(date_1) != 1 and len(date_2) != 1:
         if date_1[0] < date_2[0]:
             return True
             
@@ -82,11 +85,15 @@ def cmpArtworkByDateAcquired(artwork1, artwork2):
         return False
     
 #Funciones de ordenamiento 
-def sortDate(catalog, size):
+def sortDate(catalog, size, tipo):
     sub_list = lt.subList(catalog['artworks'], 1, size)
     sub_list = sub_list.copy()
     start_time = time.process_time()
-    sorted_list = sa.sort(sub_list, cmpArtworkByDateAcquired)
+    sorted_list = ""
+    if tipo == Qc:
+        sorted_list = Qc.sort(sub_list, 1, lt.size(sub_list), cmpArtworkByDateAcquired)
+    else:
+        sorted_list = tipo.sort(sub_list, cmpArtworkByDateAcquired)
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
     return elapsed_time_mseg, sorted_list

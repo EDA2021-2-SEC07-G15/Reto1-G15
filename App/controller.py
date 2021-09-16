@@ -23,6 +23,10 @@
 import config as cf
 import model
 import csv
+from DISClib.Algorithms.Sorting import shellsort as Sa
+from DISClib.Algorithms.Sorting import mergesort as Mg
+from DISClib.Algorithms.Sorting import insertionsort as In
+from DISClib.Algorithms.Sorting import quicksort as Qc
 
 
 """
@@ -60,7 +64,14 @@ def loadArtworks(catalog,filename):
     
 
 # Funciones de ordenamiento
-def sortDate(catalog, size):
-    return model.sortDate(catalog, size)
+def sortDate(catalog, size, ordenamiento):
+    tipo = Sa
+    if ordenamiento == "Mg":
+        tipo = Mg
+    elif ordenamiento == "In":
+        tipo = In
+    elif ordenamiento == "Qc":
+        tipo = Qc
+    return model.sortDate(catalog, size, tipo)
 
 # Funciones de consulta sobre el catálogo

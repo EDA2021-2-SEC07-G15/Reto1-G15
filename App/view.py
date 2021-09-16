@@ -37,7 +37,7 @@ def iniciarCatalogo(tipo):
     return controller.initCatalog(tipo)
 def loadData(catalog,artist,artworks):
     controller.loadData(catalog,artist,artworks)
-def printSortResults(ord_artworks, sample=100):
+def printSortResults(ord_artworks, sample=10):
     size = lt.size(ord_artworks)
     if size > sample:
         print("los primeros ", sample, " artworks ordenados por fecha de adquisición son:")
@@ -68,6 +68,23 @@ def selección_estructura()-> str:
     elif tipo ==2:
         estructura = "LINKED_LIST"
     return estructura
+def seleccion_ordenamiento():
+    ordenamiento = ""
+    print("¿Con que tipo de ordenamiento desea organizar los artworks?")
+    print("1) Insertion sort ")
+    print("2) Shell sort ")
+    print("3) Merge sort ")
+    print("4) Quick sort ")
+    tipo = input("Seleccione una opción: ")
+    if tipo == 1:
+        ordenamiento = "In"
+    elif tipo == 2:
+        ordenamiento = "Sa"
+    elif tipo == 3:
+        ordenamiento = "Mg"
+    elif tipo == 4:
+        ordenamiento = "Qc"
+    return ordenamiento
 
 catalog = None
 
@@ -83,10 +100,13 @@ while True:
         catalog = iniciarCatalogo(tipo_estructura)
         loadData(catalog,'Artists-utf8-small.csv','Artworks-utf8-small.csv')
         print("Se cargó exitosamente la información")
+        print("Artistas cargados: " + str(lt.size(catalog["artist"])))
+        print("Artworks cargados: " + str(lt.size(catalog["artworks"])))
         
-    elif int(inputs[0]) == 2:
+    elif int(inputs[0]) == 3:
         size = input("Indique tamaño de la muestra: ")
-        result = controller.sortDate(catalog, int(size))
+        tipo = seleccion_ordenamiento()
+        result = controller.sortDate(catalog, int(size), tipo)
         print("Para la muestra de", size, " elementos, el tiempo (mseg) es: ",
         str(result[0]))
         printSortResults(result[1])
