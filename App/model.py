@@ -26,10 +26,12 @@
 
 
 import config as cf
+import time
 from DISClib.ADT import list as lt
 from DISClib.DataStructures import arraylist as array
 from DISClib.DataStructures import singlelinkedlist as singlelink
 from DISClib.Algorithms.Sorting import shellsort as sa
+from datetime import datetime as dt
 assert cf
 
 
@@ -56,12 +58,24 @@ def addArtists(catalog, artist):
 
 def addArtworks(catalog, artwork):
     lt.addLast(catalog['artworks'], artwork)
-    
-
-    
-
 # Funciones para creacion de datos
 
 # Funciones de consulta
 
 # Funciones utilizadas para comparar elementos dentro de una lista
+def cmpArtworkByDateAcquired(artwork1, artwork2):
+    fecha_1 = artwork1["DateAcquired"]
+    fecha_2= artwork2["DateAcquired"]
+    date_1 = dt.strptime(fecha_1, '%Y %m %d')
+    date_2 = dt.strptime(fecha_2, '%Y %m %d')
+    return date_1 < date_2
+#Funciones de ordenamiento 
+def sortDate(catalog, size):
+    sub_list = lt.subList(catalog['artworks'], 1, size)
+    sub_list = sub_list.copy()
+    start_time = time.process_time()
+    sorted_list = sa.sort(sub_list, cmpArtworkByDateAcquired)
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
+    return elapsed_time_mseg, sorted_list
+

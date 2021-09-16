@@ -60,5 +60,7 @@ def loadArtworks(catalog,filename):
     
 
 # Funciones de ordenamiento
+def sortDate(catalog, size):
+    return model.sortDate(catalog, size)
 
 # Funciones de consulta sobre el catálogo

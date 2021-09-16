@@ -37,6 +37,15 @@ def iniciarCatalogo(tipo):
     return controller.initCatalog(tipo)
 def loadData(catalog,artist,artworks):
     controller.loadData(catalog,artist,artworks)
+def printSortResults(ord_artworks, sample=10):
+    size = lt.size(ord_artworks)
+    if size > sample:
+        print("los primeros ", sample, " artworks ordenados por fecha de adquisición son:")
+        i = 1
+        while i <= sample:
+            work= lt.getElement(ord_artworks,i)
+            print ("Titulo: " + work["Title"] + " DateAcquired: " + work["DateAcquired"])
+            i +=1
 
 def printMenu():
     print("Bienvenido")
@@ -73,12 +82,14 @@ while True:
         print("Cargando información de los archivos ....")
         catalog = iniciarCatalogo(tipo_estructura)
         loadData(catalog,'Artists-utf8-small.csv','Artworks-utf8-small.csv')
+        print("Se cargó exitosamente la información")
         
-
-        
-
     elif int(inputs[0]) == 2:
-        pass
+        size = input("Indique tamaño de la muestra: ")
+        result = controller.sortDate(catalog, int(size))
+        print("Para la muestra de", size, " elementos, el tiempo (mseg) es: ",
+        str(result[0]))
+        printSortResults(result[1])
 
     else:
         sys.exit(0)
