@@ -33,8 +33,8 @@ Presenta el menu de opciones y por cada seleccion
 se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
-def iniciarCatalogo():
-    return controller.initCatalog()
+def iniciarCatalogo(tipo):
+    return controller.initCatalog(tipo)
 def loadData(catalog,artist,artworks):
     controller.loadData(catalog,artist,artworks)
 
@@ -71,18 +71,11 @@ while True:
     if int(inputs[0]) == 1:
         tipo_estructura = selección_estructura()
         print("Cargando información de los archivos ....")
-        catalog = iniciarCatalogo()
-        iniciarCatalogo(catalog,'Artists-utf8-small.csv','Artworks-utf8-small.csv')
+        catalog = iniciarCatalogo(tipo_estructura)
+        loadData(catalog,'Artists-utf8-small.csv','Artworks-utf8-small.csv')
+        
 
-        controller.loadArtists('Artists-utf8-small.csv')
-        artists = controller.loadArtists('Artists-utf8-small.csv', tipo_estructura)
-        print('Total de artistas cargados: ' + str(lt.size(artists)))
-        print("Los últimos tres elementos de la lista total de artistas cargados son: El último es " + str(lt.lastElement(artists)) + " ; el penúltimo es : " + str(lt.getElement(artists, (int(lt.size(artists)-1)))) + " y el antepenúltimo es : " + str(lt.getElement(artists, (int(lt.size(artists)-2)))))
-
-        controller.loadArtworks('Artworks-utf8-small.csv')
-        artworks = controller.loadArtworks('Artworks-utf8-small.csv', tipo_estructura)
-        print('Total de obras de arte cargadas: ' + str(lt.size(artworks)))
-        print("Los últimos tres elementos de la lista total de obras de arte cargadas son: La última es " + str(lt.lastElement(artworks)) + " ; la penúltima es : " + str(lt.getElement(artworks, (int(lt.size(artists)-1)))) + " y la antepenúltima es : " + str(lt.getElement(artworks, (int(lt.size(artists)-2)))))
+        
 
     elif int(inputs[0]) == 2:
         pass

@@ -52,32 +52,11 @@ def newCatalog(tipo):
 # Funciones para agregar informacion al catalogo
 
 def addArtists(catalog, artist):
-    lt.addLast(catalog['artist'], artist)
-    authors = book['authors'].split(",")
-    # Cada autor, se crea en la lista de libros del catalogo, y se
-    # crea un libro en la lista de dicho autor (apuntador al libro)
-    for author in authors:
-        addBookAuthor(catalog, author.strip(), book)
-    
+    lt.addLast(catalog['artist'], artist)    
 
 def addArtworks(catalog, artwork):
-    # Se adiciona el libro a la lista de libros
     lt.addLast(catalog['artworks'], artwork)
-    # Se obtienen los autores del libro
-    Dateacquired = artwork["DateAcquired"].split(",")
-    # Cada autor, se crea en la lista de libros del catalogo, y se
-    # crea un libro en la lista de dicho autor (apuntador al libro)
-    for Date in Dateacquired:
-        addDateacquired(catalog, Date.strip(), artwork)
-def addDateacquired(catalog,fecha,artwork):
-    authors = catalog['authors']
-    posauthor = lt.isPresent(authors, authorname)
-    if posauthor > 0:
-        author = lt.getElement(authors, posauthor)
-    else:
-        author = newAuthor(authorname)
-        lt.addLast(authors, author)
-    lt.addLast(author['books'], book)
+    
 
     
 
@@ -86,11 +65,3 @@ def addDateacquired(catalog,fecha,artwork):
 # Funciones de consulta
 
 # Funciones utilizadas para comparar elementos dentro de una lista
-def cmpArtworkByDateAcquired(artwork1, artwork2):
-    if artwork1 
-    """
-    Devuelve verdadero (True) si el 'DateAcquired' de artwork1 es menores que el de artwork2
-    Args:
-    artwork1: informacion de la primera obra que incluye su valor 'DateAcquired'
-    art
-    # Funciones de ordenamiento
