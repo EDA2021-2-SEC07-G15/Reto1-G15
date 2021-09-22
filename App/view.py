@@ -38,20 +38,26 @@ def iniciarCatalogo(tipo):
 def loadData(catalog,artist,artworks):
     controller.loadData(catalog,artist,artworks)
 
-def printSortResults2(ord_artists, sample =70):
+def printSortResults2(ord_artists,date1,date2,sample =10 ):
     size = lt.size(ord_artists)
     if size > sample:
         print("Los primeros ", sample, " artistas ordenados por fecha de nacimiento son:")
-        i = 1
-        while i <= sample:
+        i = 0
+        contador = 0
+        while i <= size:
             work= lt.getElement(ord_artists,i)
-            print ("Nombre: " + work["DisplayName"] + "; Año de Nacimiento: " + work["BeginDate"] + "; Año de Fallecimiento: " + work["EndDate"] + "; Nationality: " + work["Nationality"] + "; Año de Nacimiento: " + work["Gender"])
+            fecha_a_comparar = int(work["BeginDate"])
+            if  fecha_a_comparar >= date1 and fecha_a_comparar <= date2:
+                if contador <= sample:
+                    print ("Nombre: " + work["DisplayName"] + "; Año de Nacimiento: " + work["BeginDate"] + "; Año de Fallecimiento: " + work["EndDate"] + "; Nationality: " + work["Nationality"] + "; Año de Nacimiento: " + work["Gender"])
+                    contador +=1                 
             i +=1
 
 def printSortResults(ord_artworks, sample=10):
     size = lt.size(ord_artworks)
     if size > sample:
         print("los primeros ", sample, " artworks ordenados por fecha de adquisición son:")
+
         i = 1
         while i <= sample:
             work= lt.getElement(ord_artworks,i)
@@ -116,12 +122,12 @@ while True:
         print("Artworks cargados: " + str(lt.size(catalog["artworks"])))
 
     elif int(inputs[0]) == 2:
-        date1 = input("Indique el año inicial de la búsqueda en formato YYYY: ")
-        date2 = input("Indique el año final de la búsqueda en formato YYYY: ")
+        date1 = int(input("Indique el año inicial de la búsqueda en formato YYYY: "))
+        date2 = int(input("Indique el año final de la búsqueda en formato YYYY: "))
         tipo = seleccion_ordenamiento()
-        result1 = controller.sortArtistByDate(catalog, date1, date2, tipo)
+        result1 = controller.sortArtistByDate(catalog,tipo)
         print("Para la muestra entre", date1 , " y " , date2, ", el tiempo (mseg) es: ", str(result1[0]))
-        printSortResults2(result1[1])
+        printSortResults2(result1[1],date1,date2)
         
     elif int(inputs[0]) == 3:
         size = input("Indique tamaño de la muestra: ")

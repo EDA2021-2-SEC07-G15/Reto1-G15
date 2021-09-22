@@ -25,6 +25,7 @@
  """
 
 
+from DISClib.DataStructures.liststructure import subList
 import config as cf
 import time
 from DISClib.ADT import list as lt
@@ -71,6 +72,8 @@ def addArtworks(catalog, artwork):
 
 
 
+
+
 # Funciones utilizadas para comparar elementos dentro de una lista
 def cmpArtworkByDateAcquired(artwork1, artwork2):
     fecha_1 = artwork1["DateAcquired"]
@@ -93,7 +96,7 @@ def cmpArtworkByDateAcquired(artwork1, artwork2):
 def cmpArtistByBirthDate(artist1, artist2):
     date1 = artist1["BeginDate"] 
     date2 = artist2["BeginDate"] 
-    if len(date1) != 0 and len(date2) != 0:
+    if date1 != "0" and date2 != "0":
         if date1 < date2:
             return True
         else:
@@ -115,7 +118,7 @@ def sortDate(catalog, size, tipo):
     elapsed_time_mseg = (stop_time - start_time)*1000
     return elapsed_time_mseg, sorted_list
 
-def sortArtistbyDate (catalog, date1, date2, tipo):
+def sortArtistbyDate (catalog, tipo):
     sub_list2 = lt.subList(catalog["artist"],1, lt.size(catalog["artist"]))
     sub_list2 = sub_list2.copy()
     start_time = time.process_time()
@@ -127,5 +130,7 @@ def sortArtistbyDate (catalog, date1, date2, tipo):
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
     return elapsed_time_mseg, sorted_list
+
+    
    
 

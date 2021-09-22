@@ -73,9 +73,7 @@ def sortDate(catalog, size, ordenamiento):
     elif ordenamiento == "Qc":
         tipo = Qc
     return model.sortDate(catalog, size, tipo)
-
-# Funciones de consulta sobre el catálogo
-def sortArtistByDate(catalog, date1, date2, ordenamiento):
+def sortArtistByDate(catalog, ordenamiento):
     tipo = Sa
     if ordenamiento == "Mg":
         tipo = Mg
@@ -83,4 +81,8 @@ def sortArtistByDate(catalog, date1, date2, ordenamiento):
         tipo = In
     elif ordenamiento == "Qc":
         tipo = Qc
-    return model.sortArtistbyDate(catalog, date1, date2, tipo)
+    return model.sortArtistbyDate(catalog, tipo)
+# Funciones de consulta sobre el catálogo
+def ArtistinRange (lista_ordenada, date1,date2):
+    
+    return model.Artistinrange(lista_ordenada,date1,date2)
