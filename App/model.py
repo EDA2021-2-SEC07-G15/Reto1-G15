@@ -47,10 +47,12 @@ los mismos.
 def newCatalog(tipo):
 
     catalogo = {'artist': None,
-               'artworks': None,}
+               'artworks': None,
+               'artistsByDate': None,}
 
     catalogo['artist'] = lt.newList(datastructure= tipo)
     catalogo['artworks'] = lt.newList(datastructure= tipo)
+    catalogo['artistsByDates'] = lt.newList(datastructure= tipo)
 
     return catalogo
 
@@ -61,9 +63,13 @@ def addArtists(catalog, artist):
 
 def addArtworks(catalog, artwork):
     lt.addLast(catalog['artworks'], artwork)
+
 # Funciones para creacion de datos
 
+
 # Funciones de consulta
+
+
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 def cmpArtworkByDateAcquired(artwork1, artwork2):
@@ -83,18 +89,43 @@ def cmpArtworkByDateAcquired(artwork1, artwork2):
             return False
     else:
         return False
+
+def cmpArtistByBirthDate(artist1, artist2):
+    date1 = artist1["BeginDate"] 
+    date2 = artist2["BeginDate"] 
+    if len(date1) != 0 and len(date2) != 0:
+        if date1 < date2:
+            return True
+        else:
+            return False
+    else:
+        return False
     
 #Funciones de ordenamiento 
 def sortDate(catalog, size, tipo):
-    sub_list = lt.subList(catalog['artworks'], 1, size)
-    sub_list = sub_list.copy()
+    sub_list1 = lt.subList(catalog['artworks'], 1, size)
+    sub_list1 = sub_list1.copy()
     start_time = time.process_time()
     sorted_list = ""
     if tipo == Qc:
-        sorted_list = Qc.sort(sub_list, 1, lt.size(sub_list), cmpArtworkByDateAcquired)
+        sorted_list = Qc.sort(sub_list1, 1, lt.size(sub_list1), cmpArtworkByDateAcquired)
     else:
-        sorted_list = tipo.sort(sub_list, cmpArtworkByDateAcquired)
+        sorted_list = tipo.sort(sub_list1, cmpArtworkByDateAcquired)
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
     return elapsed_time_mseg, sorted_list
+
+def sortArtistbyDate (catalog, date1, date2, tipo):
+    sub_list2 = lt.subList(catalog["artist"],1, lt.size(catalog["artist"]))
+    sub_list2 = sub_list2.copy()
+    start_time = time.process_time()
+    sorted_list = ""
+    if tipo == Qc:
+        sorted_list = Qc.sort(sub_list2, 1, lt.size(sub_list2), cmpArtistByBirthDate)
+    else:
+        sorted_list = tipo.sort(sub_list2, cmpArtistByBirthDate)
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
+    return elapsed_time_mseg, sorted_list
+   
 

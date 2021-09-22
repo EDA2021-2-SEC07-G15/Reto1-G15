@@ -75,3 +75,12 @@ def sortDate(catalog, size, ordenamiento):
     return model.sortDate(catalog, size, tipo)
 
 # Funciones de consulta sobre el catálogo
+def sortArtistByDate(catalog, date1, date2, ordenamiento):
+    tipo = Sa
+    if ordenamiento == "Mg":
+        tipo = Mg
+    elif ordenamiento == "In":
+        tipo = In
+    elif ordenamiento == "Qc":
+        tipo = Qc
+    return model.sortArtistbyDate(catalog, date1, date2, tipo)
