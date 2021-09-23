@@ -61,6 +61,8 @@ def loadArtworks(catalog,filename):
     lectura = csv.DictReader(open(artworksfile, encoding="utf-8"))
     for artwork in lectura:
         model.addArtworks(catalog, artwork)
+def LoadArtNat (catalogo,lista):
+    model.addArtw_Nt(lista,catalogo)
     
 
 # Funciones de ordenamiento
@@ -82,6 +84,35 @@ def sortArtistByDate(catalog, ordenamiento):
     elif ordenamiento == "Qc":
         tipo = Qc
     return model.sortArtistbyDate(catalog, tipo)
+def sortArtVsNatBynum (catalog, ordenamiento):
+    tipo = Sa
+    if ordenamiento == "Mg":
+        tipo = Mg
+    elif ordenamiento == "In":
+        tipo = In
+    elif ordenamiento == "Qc":
+        tipo = Qc
+    return model.sortArtVsNatBynum(catalog,tipo)
+def sortDepabydate(lista_c,ordenamiento):
+    tipo = Sa
+    if ordenamiento == "Mg":
+        tipo = Mg
+    elif ordenamiento == "In":
+        tipo = In
+    elif ordenamiento == "Qc":
+        tipo = Qc
+    return model.sortDepBydate(lista_c,tipo)
+def sortDepbyprice(listac,ordenamiento):
+    tipo = Sa
+    if ordenamiento == "Mg":
+        tipo = Mg
+    elif ordenamiento == "In":
+        tipo = In
+    elif ordenamiento == "Qc":
+        tipo = Qc
+    return model.sortDepbyCost(listac,tipo)
+
+    
 # Funciones de consulta sobre el catálogo
 def ArtistinRange (lista_ordenada, date1,date2):
     return model.Artistinrange(lista_ordenada,date1,date2)
@@ -92,3 +123,15 @@ def ArtworksinRange(lista,date1,date2):
 def Busqueda_id(lista,id):
     return model.searchConstituentID(lista,id)
 
+def listaNacionalidades(catalog):
+    return model.Nacionalidades(catalog)
+
+def ArtworkPorNacionalidad(nacionalidades, lista_artworks, Lista_artist):
+    return model.artworkNacionalidad(nacionalidades,lista_artworks,Lista_artist)
+
+def artVSnat(nacionalidades,artworks):
+    return model.catalogoNacionalidadesVSArtworks(nacionalidades,artworks)
+def Busqueda_depa(departamento,lista_artworks):
+    return model.Buscar_Obras_Departamento(departamento,lista_artworks)
+def Calculo_costos(lista_departamentos):
+    return model.Calcular_Costo_dep(lista_departamentos)
