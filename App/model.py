@@ -35,7 +35,7 @@ from DISClib.Algorithms.Sorting import shellsort as Sa
 from DISClib.Algorithms.Sorting import mergesort as Mg
 from DISClib.Algorithms.Sorting import insertionsort as In
 from DISClib.Algorithms.Sorting import quicksort as Qc
-from datetime import datetime as dt
+from datetime import date, datetime as dt
 assert cf
 
 
@@ -53,14 +53,13 @@ def newCatalog(tipo):
 
     catalogo['artist'] = lt.newList(datastructure= tipo)
     catalogo['artworks'] = lt.newList(datastructure= tipo)
-    catalogo['artistsByDates'] = lt.newList(datastructure= tipo)
 
     return catalogo
 
 # Funciones para agregar informacion al catalogo
 
 def addArtists(catalog, artist):
-    lt.addLast(catalog['artist'], artist)    
+    lt.addLast(catalog['artist'], artist) 
 
 def addArtworks(catalog, artwork):
     lt.addLast(catalog['artworks'], artwork)
@@ -69,6 +68,53 @@ def addArtworks(catalog, artwork):
 
 
 # Funciones de consulta
+def Artistinrange(lista_ordenada,date1,date2):
+    size = lt.size(lista_ordenada)
+    i = 0 
+    numeroArtistas = 0
+    Artistinrange = lt.newList()
+    while i <= size:
+        elemento = lt.getElement(lista_ordenada,i)
+        fecha_a_comparar = int(elemento["BeginDate"])
+        if  fecha_a_comparar >= date1 and fecha_a_comparar <= date2:
+            numeroArtistas +=1
+            lt.addLast(Artistinrange,elemento)
+        i +=1
+    return numeroArtistas, Artistinrange
+def Artorksinrange (lista_ordenada,date1,date2):
+    fecha1 = time.strptime(date1, "%Y-%m-%d")
+    fecha2 = time.strptime(date2, "%Y-%m-%d")
+    size = lt.size(lista_ordenada)
+    i = 0 
+    numeroArtworks = 0
+    numeroPurchase = 0
+    Artworksinrange = lt.newList()
+    while i <= size:
+        elemento = lt.getElement(lista_ordenada,i)
+        fecha = elemento["DateAcquired"]
+        if fecha != "":
+            fecha_a_comparar = time.strptime(fecha, "%Y-%m-%d")
+            comparacion = fecha_a_comparar >= fecha1 and fecha_a_comparar <= fecha2
+            if comparacion == True:
+                numeroArtworks += 1
+                lt.addLast(Artworksinrange,elemento)
+
+        purchase = elemento["CreditLine"]
+        if "urchase" in purchase:
+            numeroPurchase +=1
+        i +=1
+    return Artworksinrange, numeroPurchase, numeroArtworks
+def searchConstituentID (Lista_artista,idAw):
+    size = lt.size(Lista_artista)
+    i = 0 
+    id_a_comparar = idAw.strip("[]")
+    while i < size:
+        elemento = lt.getElement(Lista_artista,i)
+        C_id = elemento["ConstituentID"]
+        if C_id in id_a_comparar:
+            return elemento["DisplayName"]
+
+        i+= 1
 
 
 
@@ -76,37 +122,27 @@ def addArtworks(catalog, artwork):
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 def cmpArtworkByDateAcquired(artwork1, artwork2):
-    fecha_1 = artwork1["DateAcquired"]
-    fecha_2= artwork2["DateAcquired"]
-    date_1 = fecha_1.split("-")
-    date_2 = fecha_2.split("-")
-    if len(date_1) != 1 and len(date_2) != 1:
-        if date_1[0] < date_2[0]:
-            return True
-            
-        elif date_1[1] < date_2[1]:
-            return True
-        elif date_1[2] < date_2[2]:
-            return True
-        else:
-            return False
+    date1= artwork1["DateAcquired"]
+    date2= artwork2["DateAcquired"]
+    if date1 != "" and date2 != "":
+        fecha1 = time.strptime(date1, "%Y-%m-%d")
+        fecha2 = time.strptime(date2, "%Y-%m-%d")
+        comparacion = fecha1 < fecha2
+        return comparacion
     else:
-        return False
-
+        return True
+    
 def cmpArtistByBirthDate(artist1, artist2):
     date1 = artist1["BeginDate"] 
     date2 = artist2["BeginDate"] 
-    if date1 != "0" and date2 != "0":
-        if date1 < date2:
-            return True
-        else:
-            return False
+    if date1 < date2:
+        return True
     else:
         return False
     
 #Funciones de ordenamiento 
-def sortDate(catalog, size, tipo):
-    sub_list1 = lt.subList(catalog['artworks'], 1, size)
+def sortDate(catalog, tipo):
+    sub_list1 = lt.subList(catalog['artworks'], 1, lt.size(catalog['artworks']))
     sub_list1 = sub_list1.copy()
     start_time = time.process_time()
     sorted_list = ""

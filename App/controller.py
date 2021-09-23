@@ -64,7 +64,7 @@ def loadArtworks(catalog,filename):
     
 
 # Funciones de ordenamiento
-def sortDate(catalog, size, ordenamiento):
+def sortDate(catalog,ordenamiento):
     tipo = Sa
     if ordenamiento == "Mg":
         tipo = Mg
@@ -72,7 +72,7 @@ def sortDate(catalog, size, ordenamiento):
         tipo = In
     elif ordenamiento == "Qc":
         tipo = Qc
-    return model.sortDate(catalog, size, tipo)
+    return model.sortDate(catalog,tipo)
 def sortArtistByDate(catalog, ordenamiento):
     tipo = Sa
     if ordenamiento == "Mg":
@@ -84,5 +84,11 @@ def sortArtistByDate(catalog, ordenamiento):
     return model.sortArtistbyDate(catalog, tipo)
 # Funciones de consulta sobre el catálogo
 def ArtistinRange (lista_ordenada, date1,date2):
-    
     return model.Artistinrange(lista_ordenada,date1,date2)
+
+def ArtworksinRange(lista,date1,date2):
+    return model.Artorksinrange(lista,date1,date2)
+
+def Busqueda_id(lista,id):
+    return model.searchConstituentID(lista,id)
+

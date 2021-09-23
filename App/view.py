@@ -38,32 +38,45 @@ def iniciarCatalogo(tipo):
 def loadData(catalog,artist,artworks):
     controller.loadData(catalog,artist,artworks)
 
-def printSortResults2(ord_artists,date1,date2,sample =10 ):
+def printSortResults2(ord_artists,number_artist,date1,date2):
+    print("Hay " + str(number_artist) + " artistas nacidos entre " + str(date1) + " y " + str(date2))
     size = lt.size(ord_artists)
-    if size > sample:
-        print("Los primeros ", sample, " artistas ordenados por fecha de nacimiento son:")
-        i = 0
-        contador = 0
-        while i <= size:
-            work= lt.getElement(ord_artists,i)
-            fecha_a_comparar = int(work["BeginDate"])
-            if  fecha_a_comparar >= date1 and fecha_a_comparar <= date2:
-                if contador <= sample:
-                    print ("Nombre: " + work["DisplayName"] + "; Año de Nacimiento: " + work["BeginDate"] + "; Año de Fallecimiento: " + work["EndDate"] + "; Nationality: " + work["Nationality"] + "; Año de Nacimiento: " + work["Gender"])
-                    contador +=1                 
-            i +=1
-
-def printSortResults(ord_artworks, sample=10):
+    rango = 3
+    print("Los primeros y ultimos 3 son: ")
+    #Primeros 3 
+    i = 0
+    while i < rango:
+        primeros = lt.getElement(ord_artists,i)
+        print("Nombre: " + primeros["DisplayName"] + "; Año de Nacimiento: " + primeros["BeginDate"] + "; Año de Fallecimiento: " + primeros["EndDate"] + "; Nationality: " + primeros["Nationality"] + "; Gender: " + primeros["Gender"])
+        i+=1
+    #Uiltimos 3
+    j = 2
+    while j >= 0:
+        ultimos = lt.getElement(ord_artists,size-j)
+        print("Nombre: " + ultimos["DisplayName"] + "; Año de Nacimiento: " + ultimos["BeginDate"] + "; Año de Fallecimiento: " + ultimos["EndDate"] + "; Nationality: " + ultimos["Nationality"] + "; Gender: " + ultimos["Gender"])
+        j -=1
+def printSortResults(ord_artworks, numPurch,numAdq,date1,date2,lista_artistas):
+    print("Hay " + str(numAdq) + " adquisiciones hechas entre " + str(date1) + " y " + str(date2))
+    print("El MoMA adquirió " + str(numPurch) + " piezas unicas entre " + str(date1) + " y " + str(date2) )
     size = lt.size(ord_artworks)
-    if size > sample:
-        print("los primeros ", sample, " artworks ordenados por fecha de adquisición son:")
-
-        i = 1
-        while i <= sample:
-            work= lt.getElement(ord_artworks,i)
-            print ("Titulo: " + work["Title"] + " DateAcquired: " + work["DateAcquired"])
-            i +=1
-
+    rango = 3
+    print("Los primeros y ultimos 3 son: ")
+    #Primeros 3 
+    i = 0
+    while i < rango:
+        primeros = lt.getElement(ord_artworks,i)
+        C_id = primeros["ConstituentID"]
+        nombre = searchConstituentID(lista_artistas,C_id)
+        print("Titulo: " + primeros["Title"] + "; Nombre: " + str(nombre) + "; Fecha: " + primeros["Date"] + "; Medio: " + primeros["Medium"] + "; Dimensiones: " + primeros["Dimensions"])
+        i+=1
+    #Uiltimos 3
+    j = 2
+    while j >= 0:
+        ultimos = lt.getElement(ord_artworks,size-j)
+        C_idu = ultimos["ConstituentID"]
+        nombreU = searchConstituentID(lista_artistas,C_idu)
+        print("Titulo: " + ultimos["Title"] + "; Nombre: " + nombreU + "; Fecha: " + ultimos["Date"] + "; Medio: " + ultimos["Medium"] + "; Dimensiones: " + ultimos["Dimensions"])
+        j -=1
 
 def printMenu():
     print("Bienvenido")
@@ -103,6 +116,13 @@ def seleccion_ordenamiento():
     elif tipo == 4:
         ordenamiento = "Qc"
     return ordenamiento
+def consulta_rango_edad(lista_ordenada,date1,date2):
+    return controller.ArtistinRange(lista_ordenada,date1,date2)
+def consultar_adquisiciones_rango(lista,date1,date2):
+    return controller.ArtworksinRange(lista,date1,date2)
+def searchConstituentID(lista,id):
+    return controller.Busqueda_id(lista,id)
+    
 
 catalog = None
 
@@ -126,16 +146,16 @@ while True:
         date2 = int(input("Indique el año final de la búsqueda en formato YYYY: "))
         tipo = seleccion_ordenamiento()
         result1 = controller.sortArtistByDate(catalog,tipo)
-        print("Para la muestra entre", date1 , " y " , date2, ", el tiempo (mseg) es: ", str(result1[0]))
-        printSortResults2(result1[1],date1,date2)
+        Artistinrange = consulta_rango_edad(result1[1],date1,date2)
+        printSortResults2(Artistinrange[1], Artistinrange[0],date1,date2)
         
     elif int(inputs[0]) == 3:
-        size = input("Indique tamaño de la muestra: ")
+        date1 = input("Indique el año inicial de la búsqueda en formato AAAA-MM-DD: ")
+        date2 = input("Indique el año final de la búsqueda en formato AAAA-MM-DD: ")
         tipo = seleccion_ordenamiento()
-        result2 = controller.sortDate(catalog, int(size), tipo)
-        print("Para la muestra de", size, " elementos, el tiempo (mseg) es: ",
-        str(result2[0]))
-        printSortResults(result2[1])
+        result2 = controller.sortDate(catalog,tipo)
+        Artowrkinrange = consultar_adquisiciones_rango(result2[1],date1,date2)
+        printSortResults(Artowrkinrange[0],Artowrkinrange[1],Artowrkinrange[2],date1,date2,catalog["artist"])
         
     else:
         sys.exit(0)
