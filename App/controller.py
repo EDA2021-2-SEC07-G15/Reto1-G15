@@ -84,6 +84,27 @@ def sortArtistByDate(catalog, ordenamiento):
     elif ordenamiento == "Qc":
         tipo = Qc
     return model.sortArtistbyDate(catalog, tipo)
+
+def sortArtistByName (catalog, ordenamiento):
+    tipo = Sa
+    if ordenamiento == "Mg":
+        tipo = Mg
+    elif ordenamiento == "In":
+        tipo = In
+    elif ordenamiento == "Qc":
+        tipo = Qc
+    return model.sortArtistByName(catalog, tipo)
+
+def sortArtVsNatByMedium (lista, ordenamiento):
+    tipo = Sa
+    if ordenamiento == "Mg":
+        tipo = Mg
+    elif ordenamiento == "In":
+        tipo = In
+    elif ordenamiento == "Qc":
+        tipo = Qc
+    return model.sortArtistByMedium(lista,tipo)
+
 def sortArtVsNatBynum (catalog, ordenamiento):
     tipo = Sa
     if ordenamiento == "Mg":
@@ -123,15 +144,26 @@ def ArtworksinRange(lista,date1,date2):
 def Busqueda_id(lista,id):
     return model.searchConstituentID(lista,id)
 
+def ArtistbyTech (lista, name):
+    return model.ArtistByTech(lista, name)
+
+def BusquedaArtistaPorConstituentID (lista, id):
+    return model.searchArtistConstituentID(lista, id)
+
 def listaNacionalidades(catalog):
     return model.Nacionalidades(catalog)
 
 def ArtworkPorNacionalidad(nacionalidades, lista_artworks, Lista_artist):
     return model.artworkNacionalidad(nacionalidades,lista_artworks,Lista_artist)
 
+def busquedaArtworksPorMedium(ArtistsArtworksByName):
+    return model.busquedaArtworksPorMedium (ArtistsArtworksByName)
+
 def artVSnat(nacionalidades,artworks):
     return model.catalogoNacionalidadesVSArtworks(nacionalidades,artworks)
+
 def Busqueda_depa(departamento,lista_artworks):
     return model.Buscar_Obras_Departamento(departamento,lista_artworks)
+    
 def Calculo_costos(lista_departamentos):
     return model.Calcular_Costo_dep(lista_departamentos)

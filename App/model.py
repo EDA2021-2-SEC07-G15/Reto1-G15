@@ -24,8 +24,7 @@
  * Dario Correal - Version inicial
  """
 
-
-from DISClib.DataStructures.liststructure import subList
+from DISClib.DataStructures.liststructure import newList
 import config as cf
 import time
 from DISClib.ADT import list as lt
@@ -118,6 +117,34 @@ def searchConstituentID (Lista_artista,idAw):
             return elemento["DisplayName"]
 
         i+= 1
+
+def ArtistByTech (lista_ordenada_artista , date1):
+    size = lt.size(lista_ordenada_artista)
+    i = 0  
+    ArtistByTechFinal = lt.newList()
+    constituentID = ""
+    while i < size :
+        elemento = lt.getElement(lista_ordenada_artista, i)
+        nombreArtista = elemento["DisplayName"]
+        if nombreArtista == date1:
+            lt.addLast(ArtistByTechFinal, elemento)
+            constituentID = elemento["ConstituentID"]
+        i+= 1
+    print(constituentID)
+    return constituentID
+
+def searchArtistConstituentID(Lista_artworks, idArtist):
+    size = lt.size (Lista_artworks)
+    i = 0
+    ArtistsArtworks = lt.newList()
+    while i < size:
+        elemento = lt.getElement(Lista_artworks,i)
+        C_id = elemento["ConstituentID"]
+        if idArtist in C_id :
+            lt.addLast(ArtistsArtworks, elemento) 
+        i+= 1 
+    return ArtistsArtworks
+
 def artworkNacionalidad (nacionalidades, lista_artworks, Lista_artist):
     #Diccionario Nacionalidad : Cantidad Artworks
     suma_total = {}
@@ -229,6 +256,28 @@ def buscarArtworks(lista_artworks,id,lista):
 
         i+=1 
     return Num_Artworks    
+
+def busquedaArtworksPorMedium (ArtistsArtworksByName):
+    listaDiccionarios = lt.newList()
+    listaStringsMediums = lt.newList()
+    valoresMediums = listaStringsMediums.values()
+    size1 = lt.size(ArtistsArtworksByName)
+    i = 1
+    while i<= size1:
+        elemento = lt.getElement(ArtistsArtworksByName, i)
+        mediumElemento = elemento["Medium"]
+        diccionario ={}
+        if mediumElemento in valoresMediums:
+            print("Esta en la lista")
+        else:
+            lt.addLast(listaStringsMediums, mediumElemento)
+            diccionario = {"Medium" : "" , "Cantidad" : 0}
+            diccionario["Medium"] = mediumElemento
+            diccionario["Cantidad"] += 1
+            lt.addLast(listaDiccionarios, diccionario)
+        i+=1
+    return 
+
 def Nacionalidades(catalog):
     Lista_nacionalidades = lt.newList()
     size = lt.size(catalog["artist"])
@@ -241,6 +290,7 @@ def Nacionalidades(catalog):
             lt.addLast(Lista_nacionalidades,nacionalidad)
         i +=1
     return Lista_nacionalidades
+
 def catalogoNacionalidadesVSArtworks (nacionalidades,artworks):
     lista = lt.newList()
     size = lt.size(nacionalidades)
@@ -272,6 +322,23 @@ def cmpArtistByBirthDate(artist1, artist2):
         return True
     else:
         return False
+
+def cmpArtistByName(artist1, artist2):
+    date1 = artist1["DisplayName"] 
+    date2 = artist2["DisplayName"] 
+    if date1 < date2:
+        return True
+    else:
+        return False
+
+def cmpArtworksArtistByMedium(artwork1, artwork2):
+    date1 = artwork1["Medium"] 
+    date2 = artwork2["Medium"] 
+    if date1 < date2:
+        return True
+    else:
+        return False
+
 def cmpArtVsNatByNumber(num1,num2):
     Numero1=num1["Artworks"]
     Numero2=num2["Artworks"]
@@ -319,6 +386,33 @@ def sortArtistbyDate (catalog, tipo):
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
     return elapsed_time_mseg, sorted_list
+
+def sortArtistByName (catalog, tipo):
+    sub_list3 = lt.subList(catalog["artist"],1, lt.size(catalog["artist"]))
+    sub_list3 = sub_list3.copy()
+    start_time = time.process_time()
+    sorted_list = ""
+    if tipo == Qc:
+        sorted_list = Qc.sort(sub_list3, 1, lt.size(sub_list3), cmpArtistByName)
+    else:
+        sorted_list = tipo.sort(sub_list3, cmpArtistByName)
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
+    return elapsed_time_mseg, sorted_list
+
+def sortArtistByMedium (lista, tipo):
+    sub_list4 = lt.subList(lista,1, lt.size(lista))
+    sub_list4 = sub_list4.copy()
+    start_time = time.process_time()
+    sorted_list = ""
+    if tipo == Qc:
+        sorted_list = Qc.sort(sub_list4, 1, lt.size(sub_list4), cmpArtworksArtistByMedium)
+    else:
+        sorted_list = tipo.sort(sub_list4, cmpArtworksArtistByMedium)
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
+    return elapsed_time_mseg, sorted_list
+
 def sortArtVsNatBynum (catalog, tipo):
     sub_list2 = lt.subList(catalog,1, lt.size(catalog))
     sub_list2 = sub_list2.copy()

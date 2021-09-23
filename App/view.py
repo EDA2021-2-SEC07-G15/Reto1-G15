@@ -100,6 +100,7 @@ def PrintResults5(lista,lista2,lista_artistas):
         nombreU = searchConstituentID(lista_artistas,C_idu)
         print("Titulo: " + ultimos["Title"] + "; Nombre: " + nombreU + "; Fecha: " + ultimos["Date"] + "; Medio: " + ultimos["Medium"] + "; Dimensiones: " + ultimos["Dimensions"])
         j -=1
+
 def printResults6(total_obras,departamento,costo_total,lista_costos,lista_olds,peso,lista_artistas):
     print("--------------------------------------------------------------------------------")
     print("El MoMA transportará " + str(total_obras) + " artefactos de " + str(departamento) )
@@ -178,6 +179,11 @@ def consultar_adquisiciones_rango(lista,date1,date2):
     return controller.ArtworksinRange(lista,date1,date2)
 def searchConstituentID(lista,id):
     return controller.Busqueda_id(lista,id)
+def searchConstituentID(lista,id):
+    return controller.Busqueda_id(lista,id)
+def clasificar_obras_artista (lista, date1):
+    return controller.ArtistbyTech(lista,date1) 
+
 def listaNacionalidades (catalog):
     return controller.listaNacionalidades(catalog)
 def ArtworksByNationality (nacionalidades, lista_artworks, Lista_artist):
@@ -219,6 +225,14 @@ while True:
         result2 = controller.sortDate(catalog,tipo)
         Artowrkinrange = consultar_adquisiciones_rango(result2[1],date1,date2)
         printSortResults(Artowrkinrange[0],Artowrkinrange[1],Artowrkinrange[2],date1,date2,catalog["artist"])
+    elif int(inputs[0]) == 4:
+        date1 = input("Indique el nombre del artista: ")
+        tipo = seleccion_ordenamiento()
+        result3 = controller.sortArtistByName(catalog, tipo)
+        CodArtistByTech = clasificar_obras_artista (result3[1], date1)
+        ArtistsArtworksByName = controller.BusquedaArtistaPorConstituentID(catalog["artworks"], CodArtistByTech)
+        print ( "El artista " + str(date1) + " con identificación " + str(CodArtistByTech) + " en el MOMA, tiene " + str(lt.size(ArtistsArtworksByName)) + " pieza(s) a su nombre en el museo.")
+        tecnicaMasUtilizada = controller.busquedaArtworksPorMedium(ArtistsArtworksByName)
     elif int(inputs[0]) == 5:
         lista_nacionalidades = listaNacionalidades(catalog)
         Artworks_por_Nacionalidad = ArtworksByNationality(lista_nacionalidades,catalog["artworks"],catalog["artist"])
